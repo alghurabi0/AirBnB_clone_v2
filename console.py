@@ -18,10 +18,14 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = "(hbnb) "
     classes = {
-               'BaseModel': BaseModel, 'User': User, 'Place': Place,
-               'State': State, 'City': City, 'Amenity': Amenity,
-               'Review': Review
-              }
+        "State",
+        "BaseModel",
+        "User",
+        "City",
+        "Place",
+        "Amenity",
+        "Review"
+    }
 
 
     def do_quit(self, command):
