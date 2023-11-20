@@ -122,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
         elif arg[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        print(arg)
+        # print(arg)
         if len(arg) == 1:
             new_instance = HBNBCommand.classes[args]()
             storage.save()
@@ -130,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             kwargs = dict(item.split("=") for item in arg[1:])
             # args_tuple = (*kwargs.values(),)
-            print(kwargs)
+            # print(kwargs)
             # print(args_tuple)
             new_instance = HBNBCommand.classes[arg[0]](**kwargs)
             storage.save()
