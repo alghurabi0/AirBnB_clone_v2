@@ -9,8 +9,8 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         self.id = str(uuid.uuid4())
-        self.updated_at = datetime.utcnow
-        self.created_at = datetime.utcnow
+        self.updated_at = datetime.utcnow()
+        self.created_at = datetime.utcnow()
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
