@@ -129,10 +129,10 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
         else:
             kwargs = dict(item.split("=") for item in arg[1:])
-            args_tuple = (*kwargs.values(),)
+            # args_tuple = (*kwargs.values(),)
             print(kwargs)
-            print(args_tuple)
-            new_instance = HBNBCommand.classes[arg[0]](args_tuple)
+            # print(args_tuple)
+            new_instance = HBNBCommand.classes[arg[0]](**kwargs)
             storage.save()
             print(new_instance.id)
         storage.save()
