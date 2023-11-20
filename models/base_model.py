@@ -19,10 +19,21 @@ class BaseModel:
             #                                          '%Y-%m-%dT%H:%M:%S.%f')
             # kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
             #                                          '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['updated_at'] = datetime.now
-            kwargs['created_at'] = datetime.now
+            if '__class__' in kwargs:
+                del kwargs['__class__']
+
+            for key, value in kwargs.items():
+                if key == 'created_at' or key == 'updated_at':
+                    strp = datetime.strptime
+                    setattr(self, key, strp(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                else:
+                    setattr(self, key, value)
+            if hasattr(self, 'created_at') is False:
+                self.created_at = datetime.now()
+            if hasattr(self, 'updated_at') is False:
+                self.updated_at = datetime.now()
             # del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            # self.__dict__.update(kwargs)
 
     def __str__(self):
         """Returns a string representation of the instance"""
