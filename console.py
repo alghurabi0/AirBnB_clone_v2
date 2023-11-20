@@ -1,8 +1,15 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+import sys
+from models.base_model import BaseModel
 from models import storage
-
+from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -47,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
             if not args:
                 raise SyntaxError()
             arg = args.split(" ")
-            kwargs = {}
+            keyword = {}
             for i in range(1, len(arg)):
                 k, v = tuple(arg[i].split("="))
                 if v[0] == '"':
@@ -57,11 +64,11 @@ class HBNBCommand(cmd.Cmd):
                         v = eval(v)
                     except (SyntaxError, NameError):
                         continue
-                kwargs[k] = v
-            if kwargs == {}:
+                keyword[k] = v
+            if keyword == {}:
                 thing = eval(arg[0])()
             else:
-                thing = eval(arg[0])(**kwargs)
+                thing = eval(arg[0])(**keyword)
                 storage.new(thing)
             thing.save()
             print(thing.id)
