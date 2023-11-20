@@ -4,6 +4,9 @@ from models.base_model import BaseModel
 from models.base_model import Base
 from sqlalchemy import String, Column, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from os import getenv
+import models
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -23,3 +26,13 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary="place_amenity",
                              viewonly=False)
     amenity_ids = []
+
+    if getenv("HBNB_TYPE_STORAGE", None) != "db":
+        @property
+        def reviews(self):
+            """reviews relationship for fileStorage"""
+            rvs = []
+            for rv in list(models.storage.all(Review).values()):
+                if rv.place_id == self.id:
+                    rvs.append(rv)
+            return rvs
