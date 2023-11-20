@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 from os import getenv
 import models
 from models.review import Review
-from models.review import Amenity
+from models.amenity import Amenity
 
 
 association_table = Table("place_amenity", Base.metadata,
