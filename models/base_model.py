@@ -32,6 +32,8 @@ class BaseModel:
                 self.created_at = datetime.now()
             if hasattr(self, 'updated_at') is False:
                 self.updated_at = datetime.now()
+            if hasattr(self, 'id') is False:
+                self.id = str(uuid.uuid4())
             # del kwargs['__class__']
             # self.__dict__.update(kwargs)
 
