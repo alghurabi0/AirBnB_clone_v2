@@ -34,6 +34,7 @@ class BaseModel:
                 self.updated_at = datetime.now()
             if hasattr(self, 'id') is False:
                 self.id = str(uuid.uuid4())
+            from models import storage
             storage.new(self)
             # del kwargs['__class__']
             # self.__dict__.update(kwargs)
