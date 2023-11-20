@@ -130,6 +130,8 @@ class HBNBCommand(cmd.Cmd):
             kwargs = dict(item.split("=") for item in arg[1:])
             args_tuple = (*kwargs.values(),)
             new_instance = HBNBCommand.classes[arg[0]](args_tuple)
+            storage.save()
+            print(new_instance.id)
         storage.save()
 
     def help_create(self):
