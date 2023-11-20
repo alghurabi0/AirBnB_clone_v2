@@ -70,6 +70,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 thing = eval(arg[0])(**kwargs)
                 storage.new(thing)
+            thing.save()
             print(thing.id)
         except SyntaxError:
             print("** class name missing **")
