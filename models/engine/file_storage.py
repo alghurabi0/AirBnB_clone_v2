@@ -23,15 +23,15 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls is not None:
-            if type(cls) == str:
-                cls = eval(cls)
-            cls_dict = {}
-            for k, v in self.__objects.items():
-                if type(v) == cls:
-                    cls_dict[k] = v
-            return cls_dict
-        return self.__objects
+        if cls is None:
+            return FileStorage.__objects
+        if type(cls) == str and cls in FileStorage.classes:
+            cls = FileStorage.classes[cls]
+            objs = {}
+            for key, value in FileStorage.__objects.items():
+                if type(value) == cls:
+                    objs[key] = value
+            return objs
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -47,16 +47,18 @@ class FileStorage:
         """Loads storage dictionary from file"""
         
         try:
-            temp = {}
-            with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                        self.all()[key] = FileStorage.classes[val['__class__']](**val)
+            with open(self.__file_path, "r", encoding="utf-8") as f:
+                for o in json.load(f).values():
+                    name = o["__class__"]
+                    del o["__class__"]
+                    self.new(eval(name)(**o))
         except FileNotFoundError:
             pass
     
     def delete(self, obj=None):
+        if obj is None:
+            return
         try:
-            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
-        except (AttributeError, KeyError):
+            del FileStorage.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+        except (KeyError, AttributeError):
             pass
