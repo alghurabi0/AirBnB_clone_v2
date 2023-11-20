@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+import os
 from models.base_model import BaseModel
 from models.user import User
 from models.place import Place
@@ -40,24 +41,35 @@ class FileStorage:
     def reload(self):
         """Loads storage dictionary from file"""
         classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
+                'BaseModel': BaseModel,
+                'User': User,
+                'Place': Place,
+                'Amenity': Amenity,
+                'Review': Review,
+                'State': State,
+                'City': City
+                }
+        if not os.path.exists(FileStorage.__file_path):
+            return
 
         try:
-            temp = {}
-            with open(FileStorage.__file_path, 'r') as f:
-                temp = json.load(f)
-                for key, val in temp.items():
-                    self.all()[key] = classes[val['__class__']](**val)
-        except FileNotFoundError:
+            with open(FileStorage.__file_path, 'r') as file:
+                data = None
+
+                data = json.load(file)
+
+                if data is None:
+                    return
+
+                FileStorage.__objects = {
+                    key: classes[key.split('.')[0]](**value)
+                    for key, value in data.items()}
+        except Exception:
             pass
 
     def delete(self, obj=None):
-        if obj is None:
-            return
-        try:
-            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
-        except (KeyError, AttributeError):
-            pass
+        if is not None:
+            try:
+                del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+            except (KeyError, AttributeError):
+                pass
