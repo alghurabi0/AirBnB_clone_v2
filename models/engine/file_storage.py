@@ -39,13 +39,13 @@ class FileStorage:
 
     def save(self):
         """Saves storage dictionary to file"""
-        kwdict = {x: FileStorage.__objects[x].to_dict() for x in FileStorage.__objects.keys()}
+        n = {x: self.__objects[x].to_dict() for x in self.__objects.keys()}
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-            json.dump(kwdict, f)
+            json.dump(n, f)
 
     def reload(self):
         """Loads storage dictionary from file"""
-        
+
         try:
             with open(self.__file_path, "r", encoding="utf-8") as f:
                 for o in json.load(f).values():
@@ -54,11 +54,11 @@ class FileStorage:
                     self.new(eval(name)(**o))
         except FileNotFoundError:
             pass
-    
+
     def delete(self, obj=None):
         if obj is None:
             return
         try:
-            del FileStorage.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
         except (KeyError, AttributeError):
             pass
