@@ -14,7 +14,7 @@ from models.user import User
 from models.state import State
 
 
-class BDStorage:
+class DBStorage:
     """ database storage sql"""
     __engine = None
     __session = None
