@@ -57,7 +57,7 @@ class DBStorage:
         """delete of not none"""
         if obj is not None:
             self.__session.delete(obj)
-    
+
     def reload(self):
         """reload and start new sess"""
         Base.metadata.create_all(self.__engine)
@@ -65,3 +65,7 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(sess)
         self.__session = Session()
+
+    def close(self):
+        """close session"""
+        self.__session.close()
