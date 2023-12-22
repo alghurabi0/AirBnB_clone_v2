@@ -23,7 +23,7 @@ class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
     user_id = Column(String(60, collation="latin1_swedish_ci"), ForeignKey("users.id"), nullable=False)
-    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
+    city_id = Column(String(60, collation="utf8mb4_0900_ai_ci"), ForeignKey("cities.id"), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024))
     number_bathrooms = Column(Integer, default=0)
