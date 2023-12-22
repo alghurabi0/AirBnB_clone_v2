@@ -26,10 +26,9 @@ def states(id=None):
     if id is None:
         return render_template('9-states.html', states=states)
     else:
-        state = storage.get(State, id)
-        if state is not None:
-            print(state)
-            return render_template('9-states.html', state=state)
+        for state in states.values():
+            if state.id == id:
+                return render_template('9-states.html', state=state)
         else:
             return render_template('9-states.html', id="Not found!")
 
