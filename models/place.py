@@ -23,7 +23,7 @@ class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
     user_id = Column(String(60), ForeignKey("users.id"), nullable=False)
-    city_id = Column(String(60), ForeignKey("cities.id"), nullable=False)
+    city_id = Column(Integer, ForeignKey("cities.id"), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024))
     number_bathrooms = Column(Integer, default=0)
@@ -46,7 +46,7 @@ class Place(BaseModel, Base):
                 if rv.place_id == self.id:
                     rvs.append(rv)
             return rvs
-        
+
         @property
         def amenities(self):
             """amenities relationshio for fileStorage"""
